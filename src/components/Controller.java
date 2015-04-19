@@ -33,4 +33,6 @@ public interface Controller<T> {
     void setStepping(Boolean t1);
     
     void setRate(double d);
+
+	void showPresets();
 }
