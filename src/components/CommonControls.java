@@ -48,9 +48,9 @@ public class CommonControls {
 	ScrollPane sp;
     
   public CommonControls(boolean debug, boolean twoD){
-      createButton = new Button("Vytvořit");
+    createButton = new Button("VytvoÅ™it");
       searchButton = new Button ("Vyhledat");
-      insertButton = new Button("Vložit");
+    insertButton = new Button("VloÅ¾it");
       removeButton = new Button("Odstranit");
       nextStepButton = new Button(">>");
       prevStepButton = new Button("<<");
@@ -153,7 +153,7 @@ public class CommonControls {
     
 		// DoubleLayerPane dp = as.drawPane;
      if(twoD){
-         //2d zatím neřešit
+      // 2d zatÃ­m neÅ™eÅ¡it
      }else{
 			sp = new ScrollPane();
 			System.out.println(as.pane.getWidth());
@@ -185,7 +185,9 @@ public class CommonControls {
             try{
                 controller.remove(getInputValue());
                 }catch (NumberFormatException nfe){
-                     HTMLDialog.show("Prvek nelze odstranit", "Špatný formát odstraňované hodnoty prvku <b> (není celým číslem) </b>.", Dialog.Icon.ERROR, Dialog.Buttons.OK, 400, 150);
+          HTMLDialog.show("Prvek nelze odstranit",
+            "Å patnÃ½ formÃ¡t odstraÅˆovanÃ© hodnoty prvku <b> (nenÃ­ celÃ½m Ä�Ã­slem) </b>.", Dialog.Icon.ERROR,
+            Dialog.Buttons.OK, 400, 150);
                 }
            }
        });
@@ -197,9 +199,12 @@ public class CommonControls {
                 try {
                     controller.insert(getInputValue());
                 } catch (DuplicateException ex) {
-                     HTMLDialog.show("Prvek nelze vložit", "Tento prvek již ve struktuře <b> existuje </b>.", Dialog.Icon.ERROR, Dialog.Buttons.OK, 400, 150);
+          HTMLDialog.show("Prvek nelze vloÅ¾it", "Tento prvek jiÅ¾ ve struktuÅ™e <b> existuje </b>.",
+            Dialog.Icon.ERROR, Dialog.Buttons.OK, 400, 150);
                 }catch (NumberFormatException ne){
-                      HTMLDialog.show("Prvek nelze vložit", "Špatný formát vkládané hodnoty prvku <b> (není celým číslem) </b>.", Dialog.Icon.ERROR, Dialog.Buttons.OK, 400, 150);
+          HTMLDialog.show("Prvek nelze vloÅ¾it",
+            "Å patnÃ½ formÃ¡t vklÃ¡danÃ© hodnoty prvku <b> (nenÃ­ celÃ½m Ä�Ã­slem) </b>.", Dialog.Icon.ERROR,
+            Dialog.Buttons.OK, 400, 150);
                 }
            }
        });
@@ -209,6 +214,7 @@ public class CommonControls {
            @Override
            public void handle(ActionEvent t) {
 				// createFromPresets();
+        controller.showPresets();
            }
        });
       
@@ -219,7 +225,9 @@ public class CommonControls {
                try{
                 controller.search(getInputValue());
                 }catch (NumberFormatException nfe){
-                     HTMLDialog.show("Prvek nelze nalézt", "Špatný formát hledané hodnoty prvku <b> (není celým číslem) </b>.", Dialog.Icon.ERROR, Dialog.Buttons.OK, 400, 150);
+          HTMLDialog.show("Prvek nelze nalÃ©zt",
+            "Å patnÃ½ formÃ¡t hledanÃ© hodnoty prvku <b> (nenÃ­ celÃ½m Ä�Ã­slem) </b>.", Dialog.Icon.ERROR,
+            Dialog.Buttons.OK, 400, 150);
                 }
            
            }
@@ -268,11 +276,11 @@ public class CommonControls {
     }
   
 
-    /*    PresetsDialog<Integer,SLPresetItem> presDialog = new PresetsDialog<>("Vytvořit strukturu",new SLPresets());
-        if(presDialog.showDialog() == Dialog.Result.OK){
-            Integer[] values = presDialog.getSelectedPresetItems();
-            controller.build(new ArrayList<>(Arrays.asList(values)));
-     */       
+  /*
+   * PresetsDialog<Integer,SLPresetItem> presDialog = new PresetsDialog<>("VytvoÅ™it strukturu",new SLPresets());
+   * if(presDialog.showDialog() == Dialog.Result.OK){ Integer[] values = presDialog.getSelectedPresetItems();
+   * controller.build(new ArrayList<>(Arrays.asList(values)));
+   */       
 
             /*
             if (dlg.showDialog() == Result.OK) {
