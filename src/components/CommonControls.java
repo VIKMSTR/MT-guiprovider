@@ -99,6 +99,14 @@ public class CommonControls {
       
   }
   
+	public Point2D getInputValue2D() throws NumberFormatException {
+		
+		double d1 = Double.parseDouble(elementText.getText()); 
+		double d2 = Double.parseDouble(elementText2.getText()); 
+		Point2D retval = new Point2D(d1, d2);
+		return retval;
+
+	}
   
   
   public ToolBar getStandardToolbarLayout(){
@@ -250,7 +258,12 @@ public class CommonControls {
            @Override
            public void handle(ActionEvent t) {
             try{
-                controller.remove(getInputValue());
+					if (twoD) {
+						controller.remove(getInputValue2D());
+					} else {
+						controller.remove(getInputValue());
+					}
+
                 }catch (NumberFormatException nfe){
                      HTMLDialog.show("Prvek nelze odstranit", "Špatný formát odstraňované hodnoty prvku <b> (není celým číslem) </b>.", Dialog.Icon.ERROR, Dialog.Buttons.OK, 400, 150);
                 }
@@ -262,7 +275,11 @@ public class CommonControls {
            @Override
            public void handle(ActionEvent t) {
                 try {
-                    controller.insert(getInputValue());
+                	if (twoD) {
+						controller.insert(getInputValue2D());
+					} else {
+						controller.insert(getInputValue());
+					}
                 } catch (DuplicateException ex) {
                      HTMLDialog.show("Prvek nelze vložit", "Tento prvek již ve struktuře <b> existuje </b>.", Dialog.Icon.ERROR, Dialog.Buttons.OK, 400, 150);
                 }catch (NumberFormatException ne){
@@ -284,7 +301,11 @@ public class CommonControls {
            @Override
            public void handle(ActionEvent t) {
                try{
-                controller.search(getInputValue());
+					if (twoD) {
+						controller.search(getInputValue2D());
+					} else {
+						controller.search(getInputValue());
+					}
                 }catch (NumberFormatException nfe){
                      HTMLDialog.show("Prvek nelze nalézt", "Špatný formát hledané hodnoty prvku <b> (není celým číslem) </b>.", Dialog.Icon.ERROR, Dialog.Buttons.OK, 400, 150);
                 }
