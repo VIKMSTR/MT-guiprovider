@@ -17,6 +17,8 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import cz.commons.utils.ViewSwitchButton;
 import cz.commons.utils.dialogs.Dialog;
 import cz.commons.utils.dialogs.HTMLDialog;
 import exceptions.common.DuplicateException;
@@ -40,13 +42,21 @@ public class CommonControls {
     private final TextField elementText2 = new TextField();
     private final Label speedLabel = new Label("Rychlost:");
     private final Slider speedSlider = new Slider();
+	private final ViewSwitchButton viewSwitchButton = new ViewSwitchButton();
     private boolean stepping = false;
-    private ToolBar tb;
+	protected ToolBar tb;
     private boolean debug;
     private boolean twoD;
     private Controller controller;
 	ScrollPane sp;
     
+	/**
+	 * 
+	 * @param debug
+	 *            Show debug button
+	 * @param twoD
+	 *            Show view switch button and 2D input
+	 */
   public CommonControls(boolean debug, boolean twoD){
     createButton = new Button("VytvoÅ™it");
       searchButton = new Button ("Vyhledat");
@@ -55,6 +65,12 @@ public class CommonControls {
       nextStepButton = new Button(">>");
       prevStepButton = new Button("<<");
       playPauseButton = new Button("Play/Pause");
+		/*
+		 * elementText.addEventHandler(KeyEvent.KEY_PRESSED, new
+		 * NumberValidationHandler(3));
+		 * elementText.addEventHandler(KeyEvent.KEY_PRESSED, new
+		 * NumberValidationHandler(3));
+		 */
       this.debug = debug;
       this.twoD = twoD;
       if(debug){
@@ -83,17 +99,37 @@ public class CommonControls {
       
   }
   
+	public Point2D getInputValue2D() throws NumberFormatException {
+		
+		double d1 = Double.parseDouble(elementText.getText()); 
+		double d2 = Double.parseDouble(elementText2.getText()); 
+		Point2D retval = new Point2D(d1, d2);
+		return retval;
+
+	}
   
   
   public ToolBar getStandardToolbarLayout(){
       if(debug){
           if(twoD){
-          return new ToolBar(debugButton,createButton,new Separator(Orientation.VERTICAL),searchButton,insertButton,removeButton,elementLabel,elementText,elementText2,new Separator(Orientation.VERTICAL),stepCheckBox,speedLabel,speedSlider,prevStepButton,playPauseButton,nextStepButton);
+				return new ToolBar(debugButton, createButton, new Separator(
+						Orientation.VERTICAL), searchButton, insertButton,
+						removeButton, elementLabel, elementText, elementText2,
+						new Separator(Orientation.VERTICAL), viewSwitchButton,
+						new Separator(Orientation.VERTICAL), stepCheckBox,
+						speedLabel, speedSlider, prevStepButton,
+						playPauseButton, nextStepButton);
       }
           return new ToolBar(debugButton,createButton,new Separator(Orientation.VERTICAL),searchButton,insertButton,removeButton,elementLabel,elementText,new Separator(Orientation.VERTICAL),stepCheckBox,speedLabel,speedSlider,prevStepButton,playPauseButton,nextStepButton);
       }else{
           if(twoD){
-          return new ToolBar(createButton,new Separator(Orientation.VERTICAL),searchButton,insertButton,removeButton,elementLabel,elementText,elementText2,new Separator(Orientation.VERTICAL),stepCheckBox,speedLabel,speedSlider,prevStepButton,playPauseButton,nextStepButton);
+				return new ToolBar(createButton, new Separator(
+						Orientation.VERTICAL), searchButton, insertButton,
+						removeButton, elementLabel, elementText, elementText2,
+						new Separator(Orientation.VERTICAL), viewSwitchButton,
+						new Separator(Orientation.VERTICAL), stepCheckBox,
+						speedLabel, speedSlider, prevStepButton,
+						playPauseButton, nextStepButton);
       }
         return new ToolBar(createButton,new Separator(Orientation.VERTICAL),searchButton,insertButton,removeButton,elementLabel,elementText,new Separator(Orientation.VERTICAL),stepCheckBox,speedLabel,speedSlider,prevStepButton,playPauseButton,nextStepButton);
       }
@@ -147,13 +183,25 @@ public class CommonControls {
           
           }
 
+	public void setViewSwitchHandler(EventHandler<ActionEvent> e) {
+		viewSwitchButton.addEventHandler(ActionEvent.ACTION, e);
+	}
+
+	public boolean isGridView() {
+		return viewSwitchButton.isGridView();
+	}
   public BorderPane arrangeScene(AnimationSettings as){
      BorderPane bp = new BorderPane();
      bp.setTop(getStandardToolbarLayout());
     
 		// DoubleLayerPane dp = as.drawPane;
      if(twoD){
-      // 2d zatÃ­m neÅ™eÅ¡it
+
+			viewSwitchButton.addEventHandler(ActionEvent.ACTION,
+					setSwitchablePanels(bp, as));
+
+			addPaneToScene(bp, as.drawPane.bottomLayer());
+
      }else{
 			sp = new ScrollPane();
 			System.out.println(as.pane.getWidth());
@@ -173,6 +221,35 @@ public class CommonControls {
       
   }
 
+	private void addPaneToScene(BorderPane parentPane, Pane addingPane) {
+		sp = new ScrollPane();
+		// System.out.println();
+		// = new DoubleLayerPane();
+
+		sp.setContent(new Group(addingPane));
+		// sp.setContent(as.pane);
+		sp.setPannable(true);
+		// sp.setHvalue(0.5);
+
+		// sp.setStyle("-fx-background-color: transparent; -fx-control-inner-background: transparent;");
+		parentPane.setCenter(sp);
+
+	}
+
+	private EventHandler<? super ActionEvent> setSwitchablePanels(
+			final BorderPane bp, final AnimationSettings as) {
+		return new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent actionEvent) {
+				if (!viewSwitchButton.isGridView()) {
+					addPaneToScene(bp, as.drawPane.topLayer());
+				} else {
+					addPaneToScene(bp, as.drawPane.bottomLayer());
+				}
+			}
+		};
+	}
+
 	public void centerifyScrollPane() {
 		sp.setHvalue(0.5);
 	}
@@ -183,7 +260,12 @@ public class CommonControls {
            @Override
            public void handle(ActionEvent t) {
             try{
-                controller.remove(getInputValue());
+					if (twoD) {
+						controller.remove(getInputValue2D());
+					} else {
+						controller.remove(getInputValue());
+					}
+
                 }catch (NumberFormatException nfe){
           HTMLDialog.show("Prvek nelze odstranit",
             "Å patnÃ½ formÃ¡t odstraÅˆovanÃ© hodnoty prvku <b> (nenÃ­ celÃ½m Ä�Ã­slem) </b>.", Dialog.Icon.ERROR,
@@ -197,7 +279,11 @@ public class CommonControls {
            @Override
            public void handle(ActionEvent t) {
                 try {
-                    controller.insert(getInputValue());
+                	if (twoD) {
+						controller.insert(getInputValue2D());
+					} else {
+						controller.insert(getInputValue());
+					}
                 } catch (DuplicateException ex) {
           HTMLDialog.show("Prvek nelze vloÅ¾it", "Tento prvek jiÅ¾ ve struktuÅ™e <b> existuje </b>.",
             Dialog.Icon.ERROR, Dialog.Buttons.OK, 400, 150);
@@ -213,8 +299,9 @@ public class CommonControls {
 
            @Override
            public void handle(ActionEvent t) {
-				// createFromPresets();
-        controller.showPresets();
+
+				controller.showPresets();
+
            }
        });
       
@@ -223,7 +310,11 @@ public class CommonControls {
            @Override
            public void handle(ActionEvent t) {
                try{
-                controller.search(getInputValue());
+					if (twoD) {
+						controller.search(getInputValue2D());
+					} else {
+						controller.search(getInputValue());
+					}
                 }catch (NumberFormatException nfe){
           HTMLDialog.show("Prvek nelze nalÃ©zt",
             "Å patnÃ½ formÃ¡t hledanÃ© hodnoty prvku <b> (nenÃ­ celÃ½m Ä�Ã­slem) </b>.", Dialog.Icon.ERROR,
