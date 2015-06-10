@@ -58,9 +58,9 @@ public class CommonControls {
 	 *            Show view switch button and 2D input
 	 */
   public CommonControls(boolean debug, boolean twoD){
-    createButton = new Button("VytvoÅ™it");
-      searchButton = new Button ("Vyhledat");
-    insertButton = new Button("VloÅ¾it");
+    createButton = new Button("Vzory");
+    searchButton = new Button("Najít");
+    insertButton = new Button("Vložit");
       removeButton = new Button("Odstranit");
       nextStepButton = new Button(">>");
       prevStepButton = new Button("<<");
@@ -110,29 +110,26 @@ public class CommonControls {
   
   
   public ToolBar getStandardToolbarLayout(){
-      if(debug){
+
           if(twoD){
-				return new ToolBar(debugButton, createButton, new Separator(
-						Orientation.VERTICAL), searchButton, insertButton,
-						removeButton, elementLabel, elementText, elementText2,
-						new Separator(Orientation.VERTICAL), viewSwitchButton,
-						new Separator(Orientation.VERTICAL), stepCheckBox,
-						speedLabel, speedSlider, prevStepButton,
-						playPauseButton, nextStepButton);
+        /*
+         * return new ToolBar(debugButton, createButton, new Separator( Orientation.VERTICAL), searchButton,
+         * insertButton, removeButton, elementLabel, elementText, elementText2, new Separator(Orientation.VERTICAL),
+         * viewSwitchButton, new Separator(Orientation.VERTICAL), stepCheckBox, speedLabel, speedSlider, prevStepButton,
+         * playPauseButton, nextStepButton);
+         */
+        return new ToolBar(elementLabel, elementText, elementText2, new Separator(Orientation.VERTICAL), insertButton,
+          removeButton, searchButton, new Separator(Orientation.VERTICAL), stepCheckBox, prevStepButton,
+          nextStepButton, new Separator(Orientation.VERTICAL), speedLabel, speedSlider, playPauseButton, createButton);
       }
-          return new ToolBar(debugButton,createButton,new Separator(Orientation.VERTICAL),searchButton,insertButton,removeButton,elementLabel,elementText,new Separator(Orientation.VERTICAL),stepCheckBox,speedLabel,speedSlider,prevStepButton,playPauseButton,nextStepButton);
-      }else{
-          if(twoD){
-				return new ToolBar(createButton, new Separator(
-						Orientation.VERTICAL), searchButton, insertButton,
-						removeButton, elementLabel, elementText, elementText2,
-						new Separator(Orientation.VERTICAL), viewSwitchButton,
-						new Separator(Orientation.VERTICAL), stepCheckBox,
-						speedLabel, speedSlider, prevStepButton,
-						playPauseButton, nextStepButton);
-      }
-        return new ToolBar(createButton,new Separator(Orientation.VERTICAL),searchButton,insertButton,removeButton,elementLabel,elementText,new Separator(Orientation.VERTICAL),stepCheckBox,speedLabel,speedSlider,prevStepButton,playPauseButton,nextStepButton);
-      }
+      return new ToolBar(elementLabel, elementText, new Separator(Orientation.VERTICAL), insertButton, removeButton,
+        searchButton, new Separator(
+        Orientation.VERTICAL), stepCheckBox, prevStepButton, nextStepButton, new Separator(Orientation.VERTICAL),
+        speedLabel, speedSlider, playPauseButton, createButton);
+      // return new ToolBar(debugButton,createButton,new
+      // Separator(Orientation.VERTICAL),searchButton,insertButton,removeButton,elementLabel,elementText,new
+      // Separator(Orientation.VERTICAL),stepCheckBox,speedLabel,speedSlider,prevStepButton,playPauseButton,nextStepButton);
+
   }
   
   
@@ -201,7 +198,8 @@ public class CommonControls {
 					setSwitchablePanels(bp, as));
 
 			addPaneToScene(bp, as.drawPane.bottomLayer());
-
+      addPaneToScene(bp, as.drawPane.topLayer());
+      addPaneToScene(bp, as.drawPane.bottomLayer());
      }else{
 			sp = new ScrollPane();
 			System.out.println(as.pane.getWidth());
@@ -243,6 +241,7 @@ public class CommonControls {
 			public void handle(ActionEvent actionEvent) {
 				if (!viewSwitchButton.isGridView()) {
 					addPaneToScene(bp, as.drawPane.topLayer());
+
 				} else {
 					addPaneToScene(bp, as.drawPane.bottomLayer());
 				}
