@@ -267,7 +267,8 @@ public class CommonControls {
 
                 }catch (NumberFormatException nfe){
           HTMLDialog.show("Prvek nelze odstranit",
-            "Å patnÃ½ formÃ¡t odstraÅˆovanÃ© hodnoty prvku <b> (nenÃ­ celÃ½m Ä�Ã­slem) </b>.", Dialog.Icon.ERROR,
+ "Špatný formát odstraňovaného prvku <b> (není celým číslem) </b>.",
+            Dialog.Icon.ERROR,
             Dialog.Buttons.OK, 400, 150);
                 }
            }
@@ -284,11 +285,11 @@ public class CommonControls {
 						controller.insert(getInputValue());
 					}
                 } catch (DuplicateException ex) {
-          HTMLDialog.show("Prvek nelze vloÅ¾it", "Tento prvek jiÅ¾ ve struktuÅ™e <b> existuje </b>.",
+          HTMLDialog.show("Prvek nelze vložit", "Tento prvek již ve struktuře <b> existuje </b>.",
             Dialog.Icon.ERROR, Dialog.Buttons.OK, 400, 150);
                 }catch (NumberFormatException ne){
-          HTMLDialog.show("Prvek nelze vloÅ¾it",
-            "Å patnÃ½ formÃ¡t vklÃ¡danÃ© hodnoty prvku <b> (nenÃ­ celÃ½m Ä�Ã­slem) </b>.", Dialog.Icon.ERROR,
+          HTMLDialog.show("Prvek nelze vložit", "Špatný formát vkládaného prvku <b> (není celým číslem) </b>.",
+            Dialog.Icon.ERROR,
             Dialog.Buttons.OK, 400, 150);
                 }
            }
@@ -315,8 +316,8 @@ public class CommonControls {
 						controller.search(getInputValue());
 					}
                 }catch (NumberFormatException nfe){
-          HTMLDialog.show("Prvek nelze nalÃ©zt",
-            "Å patnÃ½ formÃ¡t hledanÃ© hodnoty prvku <b> (nenÃ­ celÃ½m Ä�Ã­slem) </b>.", Dialog.Icon.ERROR,
+          HTMLDialog.show("Prvek nelze nalézt", "Špatný formát hledaného prvku <b> (není celým číslem) </b>.",
+            Dialog.Icon.ERROR,
             Dialog.Buttons.OK, 400, 150);
                 }
            
