@@ -223,15 +223,15 @@ public class CommonControls {
 		sp = new ScrollPane();
 		// System.out.println();
 		// = new DoubleLayerPane();
-
+		centerifyScrollPane();
 		sp.setContent(new Group(addingPane));
 		// sp.setContent(as.pane);
 		sp.setPannable(true);
-		// sp.setHvalue(0.5);
+
 
 		// sp.setStyle("-fx-background-color: transparent; -fx-control-inner-background: transparent;");
 		parentPane.setCenter(sp);
-
+		centerifyScrollPane();
 	}
 
 	private EventHandler<? super ActionEvent> setSwitchablePanels(
@@ -244,6 +244,7 @@ public class CommonControls {
 				} else {
 					addPaneToScene(bp, as.drawPane.bottomLayer());
 				}
+
 			}
 		};
 	}
