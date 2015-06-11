@@ -16,6 +16,8 @@ import exceptions.common.DuplicateException;
  */
 public interface Controller<T> {
 
+  void showPresets();
+
     void build(ArrayList<T> values);
 
     void insert(T value) throws DuplicateException;
@@ -34,5 +36,5 @@ public interface Controller<T> {
     
     void setRate(double d);
 
-	void showPresets();
+
 }
