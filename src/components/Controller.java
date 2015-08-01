@@ -32,9 +32,12 @@ public interface Controller<T> {
 
     void search(T value);
 
+	void reset();
+
     void setStepping(Boolean t1);
     
     void setRate(double d);
 
+	String provideHelp();
 
 }

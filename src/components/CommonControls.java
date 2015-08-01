@@ -35,6 +35,8 @@ public class CommonControls
   private Button prevStepButton;
   private Button playPauseButton;
   private Button debugButton;
+	private Button resetButton;
+	private Button helpButton;
   private final CheckBox stepCheckBox = new CheckBox("Krokovat");
   private final Label elementLabel = new Label("Prvek:");
   private final TextField elementText = new TextField();
@@ -62,6 +64,8 @@ public class CommonControls
     nextStepButton = new Button(">>");
     prevStepButton = new Button("<<");
     playPauseButton = new Button("Play/Pause");
+		resetButton = new Button("Reset");
+		helpButton = new Button("?");
     /*
      * elementText.addEventHandler(KeyEvent.KEY_PRESSED, new NumberValidationHandler(3));
      * elementText.addEventHandler(KeyEvent.KEY_PRESSED, new NumberValidationHandler(3));
@@ -120,12 +124,16 @@ public class CommonControls
        * nextStepButton);
        */
       return new ToolBar(elementLabel, elementText, elementText2, new Separator(Orientation.VERTICAL), insertButton,
-        removeButton, searchButton, new Separator(Orientation.VERTICAL), stepCheckBox, prevStepButton, nextStepButton,
-        new Separator(Orientation.VERTICAL), speedLabel, speedSlider, playPauseButton, createButton);
+ removeButton, searchButton, new Separator(Orientation.VERTICAL), viewSwitchButton,
+					new Separator(Orientation.VERTICAL), stepCheckBox, prevStepButton, nextStepButton,
+ new Separator(
+							Orientation.VERTICAL), speedLabel, speedSlider, playPauseButton, createButton, resetButton,
+					helpButton);
     }
     return new ToolBar(elementLabel, elementText, new Separator(Orientation.VERTICAL), insertButton, removeButton,
       searchButton, new Separator(Orientation.VERTICAL), stepCheckBox, prevStepButton, nextStepButton, new Separator(
-        Orientation.VERTICAL), speedLabel, speedSlider, playPauseButton, createButton);
+Orientation.VERTICAL), speedLabel, speedSlider, playPauseButton, createButton,
+				resetButton, helpButton);
     // return new ToolBar(debugButton,createButton,new
     // Separator(Orientation.VERTICAL),searchButton,insertButton,removeButton,elementLabel,elementText,new
     // Separator(Orientation.VERTICAL),stepCheckBox,speedLabel,speedSlider,prevStepButton,playPauseButton,nextStepButton);
@@ -421,6 +429,24 @@ public class CommonControls
 
     });
 
+		resetButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				controller.reset();
+
+			}
+		});
+
+		helpButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				HTMLDialog.show("Nápověda", controller.provideHelp(), Dialog.Icon.INFORMATION, Dialog.Buttons.OK, 400,
+						300);
+
+			}
+		});
   }
 
   /*
